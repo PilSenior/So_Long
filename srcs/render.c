@@ -13,6 +13,8 @@ void	render_map(t_game *game)
 		{
 			if (game->map[y][x] == '1')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->wall, x * 64, y * 64);
+			else if (game->map[y][x] == '0')
+				mlx_put_image_to_window(game->mlx, game->mlx_win, game->floor, x * 64, y * 64);
 			else if (game->map[y][x] == 'P')
 				mlx_put_image_to_window(game->mlx, game->mlx_win, game->player, x * 64, y * 64);
 			else if (game->map[y][x] == 'C')

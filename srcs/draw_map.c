@@ -33,7 +33,6 @@ void	draw_exit(t_game *game, int i, int j)
 		{
 			mlx_put_image_to_window(game->mlx, game->mlx_win,
 				game->exit_open, j * 64, i * 64);
-			ft_printf("Çıkış açıldı! Oyuncu çıkabilir.\n");
 		}
 		else
 			mlx_put_image_to_window(game->mlx, game->mlx_win,

@@ -30,7 +30,7 @@ void	check_collectible(t_game *game, int new_x, int new_y)
 	{
 		game->collected++;
 		game->map[new_y][new_x] = '0';
-		ft_printf("Collectible toplandi! (%d/%d)\n",
+		ft_printf("Collectible count! (%d/%d)\n",
 			game->collected, game->total_collectibles);
 	}
 }
@@ -40,7 +40,7 @@ void	check_exit(t_game *game, int new_x, int new_y)
 	if (game->map[new_y][new_x] == 'E'
 		&& game->collected == game->total_collectibles)
 	{
-		ft_printf("Tebrikler! Oyunu kazandiniz!\n");
+		ft_printf("WİNNER!\n");
 		exit_game(game);
 	}
 }

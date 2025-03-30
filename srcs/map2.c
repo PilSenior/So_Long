@@ -16,7 +16,7 @@ int  open_map_file(char *filename)
 {
     int fd = open(filename, O_RDONLY);
     if (fd < 0)
-        perror("Dosya açılırken hata");
+        perror("we can't open the file");
     return (fd);
 }
 

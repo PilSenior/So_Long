@@ -43,26 +43,33 @@ void check_exit2(t_game *game, int x, int y)
 
 
 void move_player(t_game *game, int new_x, int new_y) {
-    // **Önce koordinatların harita sınırları içinde olup olmadığını kontrol edelim**
+    // Koordinatların harita sınırları içinde olup olmadığını kontrol edelim
     if (new_x < 0 || new_x >= game->map_width || new_y < 0 || new_y >= game->map_height) {
-        return;  // **Hata önlendi, fonksiyon burada bitiyor**
+        return;  // Hata önlendi, fonksiyon burada bitiyor
     }
 
-    // **Yeni koordinatta duvar var mı kontrol edelim**
-    if (game->map[new_y][new_x] != '1') {
+    if (game->map[new_y][new_x] != '1') 
+    {
+        int old_x = game->player_x;
+        int old_y = game->player_y;
+        
         check_collectible2(game, new_x, new_y);
         check_exit2(game, new_x, new_y);
+        
         if (game->map[new_y][new_x] != 'E') {
             if (game->player_x != new_x || game->player_y != new_y)
                 game->move_count++;
+                
+            if (game->map[old_y][old_x] == 'P')
+                game->map[old_y][old_x] = '0';
+                
             game->player_x = new_x;
             game->player_y = new_y;
+            
+            if (game->map[new_y][new_x] != 'E')
+                game->map[new_y][new_x] = 'P';
         }
         ft_printf("Hareket Sayısı: %d\n", game->move_count);
     }
-
-    
     draw_map(game);
 }
-
-

@@ -17,10 +17,10 @@ void	load_textures(t_game *game)
 	int	w;
 	int	h;
 
-	game->wall = mlx_xpm_file_to_image
-		(game->mlx, "textures/wall.xpm", &w, &h);
 	game->floor = mlx_xpm_file_to_image
 		(game->mlx, "textures/floor.xpm", &w, &h);
+	game->wall = mlx_xpm_file_to_image
+		(game->mlx, "textures/wall.xpm", &w, &h);
 	game->player = mlx_xpm_file_to_image
 		(game->mlx, "textures/player.xpm", &w, &h);
 	game->collectible = mlx_xpm_file_to_image
@@ -69,7 +69,6 @@ void	init_game(t_game *game)
 			game->map_height * 64, "SO_LONG");
 	load_textures(game);
 	game->move_count = 0;
-	game->start_time = time(NULL);
 }
 
 int	main(int argc, char **argv)
