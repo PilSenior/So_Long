@@ -12,54 +12,63 @@
 
 #include "../includes/so_long.h"
 
-int  open_map_file(char *filename)
+int	open_map_file(char *filename)
 {
-    int fd = open(filename, O_RDONLY);
-    if (fd < 0)
-        perror("we can't open the file");
-    return (fd);
+	int	fd;
+
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		perror("we can't open the file");
+	return (fd);
 }
 
-int  allocate_map(char ***map, t_game *game)
+int	allocate_map(char ***map, t_game *game)
 {
-    *map = malloc(sizeof(char *) * (game->map_height + 1));
-    if (!*map)
-        return (0);
-    return (1);
+	*map = malloc(sizeof(char *) * (game->map_height + 1));
+	if (!*map)
+		return (0);
+	return (1);
 }
 
-void free_map(char **map, int i)
+void	free_map(char **map, int i)
 {
-    while (--i >= 0)
-        free(map[i]);
-    free(map);
+	while (--i >= 0)
+		free(map[i]);
+	free(map);
 }
 
-int  handle_line(char **map, int i, char *line)
+int	handle_line(char **map, int i, char *line)
 {
-    char *trimmed = ft_strtrim(line, " \t\n\r");
-    if (ft_strlen(trimmed) == 0)
-    {
-        free(trimmed);
-        free(line);
-        return (0);
-    }
-    map[i] = trimmed;
-    free(line);
-    return (1);
+	char	*trimmed;
+
+	trimmed = ft_strtrim(line, " \t\n\r");
+	if (ft_strlen(trimmed) == 0)
+	{
+		free(trimmed);
+		free(line);
+		return (0);
+	}
+	map[i] = trimmed;
+	free(line);
+	return (1);
 }
 
-int  read_lines(int fd, char **map, t_game *game)
+int	read_lines(int fd, char **map, t_game *game)
 {
-    int     i = 0;
-    char    *line = NULL;
+	int		i;
+	char	*line;
 
-    if (game->saved_line)
-        free(game->saved_line);
-    game->saved_line = NULL;
-    while (i < game->map_height && get_next_line(fd, &line, &game->saved_line) > 0)
-        if (!handle_line(map, i++, line))
-            continue;
-    map[i] = NULL;
-    return (i);
+	i = 0;
+	line = NULL;
+	if (game->saved_line)
+		free(game->saved_line);
+	game->saved_line = NULL;
+	while (i < game->map_height
+		&& get_next_line(fd, &line, &game->saved_line) > 0)
+	{
+		if (!handle_line(map, i++, line))
+			continue ;
+	}
+	map[i] = NULL;
+	return (i);
 }

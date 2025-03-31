@@ -18,6 +18,7 @@ char	*safe_free(char *ptr)
 		free(ptr);
 	return (NULL);
 }
+
 void	free_map_memory(t_game *game)
 {
 	int	i;

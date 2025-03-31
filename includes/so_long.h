@@ -63,5 +63,6 @@ void 	free_map(char **map, int i);
 int  	allocate_map(char ***map, t_game *game);
 int  	open_map_file(char *filename);
 int file_control(char *dst);
+int	count_map_characters(t_game *game, int *exit_count, int *player_count);
 
 #endif

@@ -80,16 +80,16 @@ int	main(int argc, char **argv)
 		ft_printf("Error: Missing map file!\n");
 		return (1);
 	}
-	if(file_control(argv[1]) != 1)
+	if (file_control(argv[1]) != 1)
 	{
 		ft_printf("Error: Doesn't exist map file\n");
-		return(1);
+		return (1);
 	}
 	game.saved_line = NULL;
 	ft_memset(&game, 0, sizeof(t_game));
 	game.map = read_map(argv[1], &game);
-	if(game.map == NULL)
-		return(ft_printf("Maps value is zero"), 0);	
+	if (game.map == NULL)
+		return (ft_printf("Maps value is zero\n"), 0);
 	init_game(&game);
 	draw_map(&game);
 	mlx_hook(game.mlx_win, 2, 1L << 0, handle_input, &game);

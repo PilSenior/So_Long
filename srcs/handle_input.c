@@ -24,27 +24,6 @@ int	exit_game(void *param)
 	return (0);
 }
 
-void	check_collectible(t_game *game, int new_x, int new_y)
-{
-	if (game->map[new_y][new_x] == 'C')
-	{
-		game->collected++;
-		game->map[new_y][new_x] = '0';
-		ft_printf("Collectible count! (%d/%d)\n",
-			game->collected, game->total_collectibles);
-	}
-}
-
-void	check_exit(t_game *game, int new_x, int new_y)
-{
-	if (game->map[new_y][new_x] == 'E'
-		&& game->collected == game->total_collectibles)
-	{
-		ft_printf("WİNNER!\n");
-		exit_game(game);
-	}
-}
-
 int	handle_input(int keycode, t_game *game)
 {
 	int	new_x;
