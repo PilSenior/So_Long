@@ -19,6 +19,7 @@ SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/player_movement.c \
        $(SRC_DIR)/render.c \
        $(SRC_DIR)/free.c \
+       $(SRC_DIR)/floot_fill.c \
        $(SRC_DIR)/get_next_line.c
 
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)

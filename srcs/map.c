@@ -30,21 +30,38 @@ int	check_map_elements(t_game *game)
 int	check_map_walls(t_game *game)
 {
 	int	i;
+	int	j;
 
-	if ((int)ft_strlen(game->map[0]) != game->map_width
-		|| ft_strchr(game->map[0], '0'))
-		return (ft_printf("Error: map up side must be wall!\n"), 0);
-	if ((int)ft_strlen(game->map[game->map_height - 1]) != game->map_width
-		|| ft_strchr(game->map[game->map_height - 1], '0'))
-		return (ft_printf("Error: map under side must be wall!\n"), 0);
+	j = 0;
+	while (j < game->map_width)
+	{
+		if (game->map[0][j] != '1')
+			return (ft_printf("Error: map top side must be wall!\n"), 0);
+		j++;
+	}
+
+	// Son satırın tamamını kontrol et
+	j = 0;
+	while (j < game->map_width)
+	{
+		if (game->map[game->map_height - 1][j] != '1')
+			return (ft_printf("Error: map bottom side must be wall!\n"), 0);
+		j++;
+	}
+
+	// Her satırın ilk ve son karakterini kontrol et
 	i = 0;
 	while (i < game->map_height)
 	{
-		if (game->map[i][0] != '1'
-			|| game->map[i][game->map_width - 1] != '1')
-			return (ft_printf("Error: map bouth side must be wall!\n"), 0);
+		if (game->map[i][0] != '1' || game->map[i][game->map_width - 1] != '1')
+			return (ft_printf("Error: map side walls must be wall!\n"), 0);
 		i++;
 	}
+	
+	// Minimum harita boyutu kontrolü
+	if (game->map_height < 3 || game->map_width < 3)
+		return (ft_printf("Error: Map is too small! Minimum size is 3x3.\n"), 0);
+		
 	return (1);
 }
 
@@ -123,4 +140,39 @@ char	**read_map(char *filename, t_game *game)
 	}
 	game->map_width = ft_strlen(map[0]);
 	return (map);
+}
+
+int	check_map_characters(t_game *game)
+{
+	int	i;
+	int	j;
+	int	player_count;
+	
+	i = 0;
+	player_count = 0;
+	while (i < game->map_height)
+	{
+		j = 0;
+		while (j < game->map_width)
+		{
+			if (game->map[i][j] == 'P')
+				player_count++;
+			if (game->map[i][j] != '0' && game->map[i][j] != '1' && 
+				game->map[i][j] != 'P' && game->map[i][j] != 'C' && 
+				game->map[i][j] != 'E' && game->map[i][j] != ' ')
+			{
+				ft_printf("Error: Map contains invalid character at position (%d,%d): '%c'\n", 
+					i, j, game->map[i][j]);
+				return (0);
+			}
+			j++;
+		}
+		i++;
+	}
+	if (player_count != 1)
+	{
+		ft_printf("Error: Map must contain exactly one player (P)!\n");
+		return (0);
+	}
+	return (1);
 }

@@ -76,7 +76,7 @@ void	move_player(t_game *game, int new_x, int new_y)
 		old_y = game->player_y;
 		check_collectible(game, new_x, new_y);
 		check_exit(game, new_x, new_y);
-		if (game->map[new_y][new_x] != 'E')
+		if (game->map[new_y][new_x] != '1')
 		{
 			if (game->player_x != new_x || game->player_y != new_y)
 				game->move_count++;

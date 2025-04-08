@@ -8,7 +8,6 @@
 # include <stdlib.h>
 # include <unistd.h>
 #include <stdio.h>
-#include <time.h>
 #include <string.h>
 typedef struct s_game
 {
@@ -32,6 +31,11 @@ typedef struct s_game
 	char    *saved_line;
 }	t_game;
 
+typedef struct s_point
+{
+	int	x;
+	int	y;
+}	t_point;
 
 int		handle_input(int keycode, t_game *game);
 char	**read_map(char *filename, t_game *game);
@@ -52,6 +56,7 @@ int 	get_map_size(char *filename, t_game *game);
 int		check_map_shape(t_game *game);
 int		check_map_walls(t_game *game);
 int		check_map_elements(t_game *game);
+int		check_map_characters(t_game *game);
 void	free_game_memory(t_game *game);
 void 	free_game_memory2(t_game *game);
 int 	get_next_line(int fd, char **line, char **saved_line);
@@ -64,5 +69,7 @@ int  	allocate_map(char ***map, t_game *game);
 int  	open_map_file(char *filename);
 int file_control(char *dst);
 int	count_map_characters(t_game *game, int *exit_count, int *player_count);
+int check_path_validity(t_game *game);
+void error_exit(t_game *game, char *message);
 
 #endif

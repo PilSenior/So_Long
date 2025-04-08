@@ -17,18 +17,29 @@ void	load_textures(t_game *game)
 	int	w;
 	int	h;
 
-	game->floor = mlx_xpm_file_to_image
-		(game->mlx, "textures/floor.xpm", &w, &h);
-	game->wall = mlx_xpm_file_to_image
-		(game->mlx, "textures/wall.xpm", &w, &h);
-	game->player = mlx_xpm_file_to_image
-		(game->mlx, "textures/player.xpm", &w, &h);
-	game->collectible = mlx_xpm_file_to_image
-		(game->mlx, "textures/collectible.xpm", &w, &h);
-	game->exit_closed = mlx_xpm_file_to_image
-		(game->mlx, "textures/exit_closed.xpm", &w, &h);
-	game->exit_open = mlx_xpm_file_to_image
-		(game->mlx, "textures/exit_open.xpm", &w, &h);
+	game->floor = mlx_xpm_file_to_image(game->mlx, "textures/floor.xpm", &w, &h);
+	if (!game->floor)
+		error_exit(game, "Floor texture yüklenemedi!");
+	
+	game->wall = mlx_xpm_file_to_image(game->mlx, "textures/wall.xpm", &w, &h);
+	if (!game->wall)
+		error_exit(game, "Wall texture yüklenemedi!");
+	
+	game->player = mlx_xpm_file_to_image(game->mlx, "textures/player.xpm", &w, &h);
+	if (!game->player)
+		error_exit(game, "Player texture yüklenemedi!");
+	
+	game->collectible = mlx_xpm_file_to_image(game->mlx, "textures/collectible.xpm", &w, &h);
+	if (!game->collectible)
+		error_exit(game, "Collectible texture yüklenemedi!");
+	
+	game->exit_closed = mlx_xpm_file_to_image(game->mlx, "textures/exit_closed.xpm", &w, &h);
+	if (!game->exit_closed)
+		error_exit(game, "Exit closed texture yüklenemedi!");
+	
+	game->exit_open = mlx_xpm_file_to_image(game->mlx, "textures/exit_open.xpm", &w, &h);
+	if (!game->exit_open)
+		error_exit(game, "Exit open texture yüklenemedi!");
 }
 
 void	count_collectibles_and_player(t_game *game)
@@ -59,14 +70,28 @@ void	count_collectibles_and_player(t_game *game)
 
 void	init_game(t_game *game)
 {
-	if (!check_map_shape(game) || !check_map_walls(game))
-		exit(1);
+	if (!check_map_shape(game) || !check_map_walls(game) || !check_map_characters(game))
+	{	
+		error_exit(game, "Harita doğrulama hatası!");
+	}
 	count_collectibles_and_player(game);
 	if (!check_map_elements(game))
-		exit(1);
+	{
+		error_exit(game, "Harita elemanları hatası!");
+	}
+	if (!check_path_validity(game))
+	{
+		error_exit(game, "Geçerli yol bulunamadı!");
+	}
 	game->mlx = mlx_init();
+	if (!game->mlx)
+		error_exit(game, "MLX başlatılamadı!");
+		
 	game->mlx_win = mlx_new_window(game->mlx, game->map_width * 64,
 			game->map_height * 64, "SO_LONG");
+	if (!game->mlx_win)
+		error_exit(game, "MLX penceresi oluşturulamadı!");
+		
 	load_textures(game);
 	game->move_count = 0;
 }
@@ -89,11 +114,20 @@ int	main(int argc, char **argv)
 	ft_memset(&game, 0, sizeof(t_game));
 	game.map = read_map(argv[1], &game);
 	if (game.map == NULL)
-		return (ft_printf("Maps value is zero\n"), 0);
+	{
+		ft_printf("Error: Maps value is zero\n");
+		return (1);
+	}
+	
 	init_game(&game);
 	draw_map(&game);
-	mlx_hook(game.mlx_win, 2, 1L << 0, handle_input, &game);
-	mlx_hook(game.mlx_win, 17, 1L << 17, exit_game, &game);
+	
+	if (mlx_hook(game.mlx_win, 2, 1L << 0, handle_input, &game) == -1)
+		error_exit(&game, "MLX hook hatası!");
+		
+	if (mlx_hook(game.mlx_win, 17, 1L << 17, exit_game, &game) == -1)
+		error_exit(&game, "MLX hook hatası!");
+		
 	mlx_loop(game.mlx);
 	return (0);
 }

@@ -73,12 +73,36 @@ void	free_mlx(t_game *game)
 
 void	free_game_memory(t_game *game)
 {
+	if (!game)
+		return;
+	
 	free_map_memory(game);
+	
 	if (game->saved_line)
 	{
 		free(game->saved_line);
 		game->saved_line = NULL;
 	}
+	
 	free_textures(game);
 	free_mlx(game);
+	
+	// Tüm pointer'ları NULL'a set et
+	game->map = NULL;
+	game->mlx = NULL;
+	game->mlx_win = NULL;
+	game->wall = NULL;
+	game->floor = NULL;
+	game->player = NULL;
+	game->collectible = NULL;
+	game->exit_closed = NULL;
+	game->exit_open = NULL;
+}
+
+void	error_exit(t_game *game, char *message)
+{
+	if (message)
+		ft_printf("Error: %s\n", message);
+	free_game_memory(game);
+	exit(1);
 }
