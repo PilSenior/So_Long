@@ -142,7 +142,7 @@ char	**read_map(char *filename, t_game *game)
 	return (map);
 }
 
-int	check_map_characters(t_game *game)
+int	validate_map_characters(t_game *game)
 {
 	int	i;
 	int	j;

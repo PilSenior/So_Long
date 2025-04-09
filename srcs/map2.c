@@ -37,38 +37,43 @@ void	free_map(char **map, int i)
 	free(map);
 }
 
-int	handle_line(char **map, int i, char *line)
+int handle_line(char **map, int i, char *line)
 {
-	char	*trimmed;
+    char    *trimmed;
 
-	trimmed = ft_strtrim(line, " \t\n\r");
-	if (ft_strlen(trimmed) == 0)
-	{
-		free(trimmed);
-		free(line);
-		return (0);
-	}
-	map[i] = trimmed;
-	free(line);
-	return (1);
+    if (!line)
+        return (0);
+    
+    trimmed = ft_strtrim(line, " \t\n\r");
+    free(line); // Line burada serbest bırakılıyor
+    
+    if (!trimmed || ft_strlen(trimmed) == 0)
+    {
+        free(trimmed); // Boşsa trimmed'i serbest bırak
+        return (0);
+    }
+    
+    map[i] = trimmed;
+    return (1);
 }
 
-int	read_lines(int fd, char **map, t_game *game)
+int read_lines(int fd, char **map, t_game *game)
 {
-	int		i;
-	char	*line;
+    int     i;
+    char    *line;
 
-	i = 0;
-	line = NULL;
-	if (game->saved_line)
-		free(game->saved_line);
-	game->saved_line = NULL;
-	while (i < game->map_height
-		&& get_next_line(fd, &line, &game->saved_line) > 0)
-	{
-		if (!handle_line(map, i++, line))
-			continue ;
-	}
-	map[i] = NULL;
-	return (i);
+    i = 0;
+    line = NULL;
+    while (i < game->map_height && get_next_line(fd, &line, &game->saved_line) > 0)
+    {
+        if (handle_line(map, i, line))
+            i++;
+        // handle_line zaten serbest bıraktı, burada line'ı tekrar serbest bırakmıyoruz
+        line = NULL; // Bir sonraki iterasyon için line'ı sıfırlıyoruz
+    }
+    // Eğer line hala kullanılmamışsa ve atanmışsa serbest bırak
+    if (line)
+        free(line);
+    map[i] = NULL;
+    return (i);
 }

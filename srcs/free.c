@@ -42,7 +42,7 @@ void	free_map_memory(t_game *game)
 
 void	free_textures(t_game *game)
 {
-	if (game->mlx)
+	if (game && game->mlx)
 	{
 		if (game->wall)
 			mlx_destroy_image(game->mlx, game->wall);
@@ -61,42 +61,46 @@ void	free_textures(t_game *game)
 
 void	free_mlx(t_game *game)
 {
-	if (game->mlx_win)
-		mlx_destroy_window(game->mlx, game->mlx_win);
-	if (game->mlx)
+	if (game && game->mlx)
 	{
+		if (game->mlx_win)
+			mlx_destroy_window(game->mlx, game->mlx_win);
 		mlx_destroy_display(game->mlx);
 		free(game->mlx);
 		game->mlx = NULL;
 	}
 }
 
-void	free_game_memory(t_game *game)
+// free.c için düzeltilmiş free_game_memory fonksiyonu
+void free_game_memory(t_game *game)
 {
-	if (!game)
-		return;
-	
-	free_map_memory(game);
-	
-	if (game->saved_line)
-	{
-		free(game->saved_line);
-		game->saved_line = NULL;
-	}
-	
-	free_textures(game);
-	free_mlx(game);
-	
-	// Tüm pointer'ları NULL'a set et
-	game->map = NULL;
-	game->mlx = NULL;
-	game->mlx_win = NULL;
-	game->wall = NULL;
-	game->floor = NULL;
-	game->player = NULL;
-	game->collectible = NULL;
-	game->exit_closed = NULL;
-	game->exit_open = NULL;
+    if (!game)
+        return;
+    
+    // Önce harita belleğini temizle
+    free_map_memory(game);
+    
+    // Kaydedilmiş satırı temizle
+    if (game->saved_line)
+    {
+        free(game->saved_line);
+        game->saved_line = NULL;
+    }
+    
+    // Grafik kaynaklarını serbest bırak
+    free_textures(game);
+    free_mlx(game);
+    
+    // Tüm pointer'ları NULL'a ayarla
+    game->map = NULL;
+    game->mlx = NULL;
+    game->mlx_win = NULL;
+    game->wall = NULL;
+    game->floor = NULL;
+    game->player = NULL;
+    game->collectible = NULL;
+    game->exit_closed = NULL;
+    game->exit_open = NULL;
 }
 
 void	error_exit(t_game *game, char *message)

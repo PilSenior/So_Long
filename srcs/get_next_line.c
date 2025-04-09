@@ -13,29 +13,41 @@
 #include "../includes/so_long.h"
 #define BUFFER_SIZE 42
 
-char	*line_after_new_line(char *s, char c)
+// get_next_line.c için düzeltilmiş line_after_new_line fonksiyonu
+char *line_after_new_line(char *s, char c)
 {
-	char	*str;
-	int		i;
-	int		j;
+    char    *str;
+    int     i;
+    int     j;
 
-	if (!s)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (s[i] && s[i] != c)
-		i++;
-	if (!s[i])
-		return (safe_free(s));
-	str = (char *)malloc((ft_strlen(s) - i) + 1);
-	if (!str)
-		return (safe_free(s));
-	i++;
-	while (s[i])
-		str[j++] = s[i++];
-	str[j] = '\0';
-	free(s);
-	return (str);
+    if (!s)
+        return (NULL);
+    
+    i = 0;
+    j = 0;
+    while (s[i] && s[i] != c)
+        i++;
+    
+    if (!s[i]) // Eğer c karakteri bulunamazsa
+    {
+        free(s); // Orjinal string'i serbest bırak
+        return (NULL);
+    }
+    
+    str = (char *)malloc((ft_strlen(s) - i) + 1);
+    if (!str)
+    {
+        free(s); // Bellek ataması başarısız olursa orjinal string'i serbest bırak
+        return (NULL);
+    }
+    
+    i++; // c karakterinden sonraki karakteri işaret et
+    while (s[i])
+        str[j++] = s[i++];
+    str[j] = '\0';
+    
+    free(s); // Orjinal string'i serbest bırak
+    return (str);
 }
 
 char	*line_before_new_line(char *s, char c)
@@ -106,24 +118,29 @@ char	*find_next_line(int fd, char *s)
 	return (s);
 }
 
-int	get_next_line(int fd, char **line, char **saved_line)
+int get_next_line(int fd, char **line, char **saved_line)
 {
-	char	*temp;
+    char    *temp;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || !line || !saved_line)
-		return (-1);
-	*saved_line = find_next_line(fd, *saved_line);
-	if (!(*saved_line))
-		return (-1);
-	*line = line_before_new_line(*saved_line, '\n');
-	if (!(*line))
-	{
-		*saved_line = safe_free(*saved_line);
-		return (0);
-	}
-	temp = line_after_new_line(*saved_line, '\n');
-	*saved_line = temp;
-	if (*saved_line && (*saved_line)[0] == '\0')
-		*saved_line = safe_free(*saved_line);
-	return (1);
+    if (fd < 0 || BUFFER_SIZE <= 0 || !line || !saved_line)
+        return (-1);
+    
+    *saved_line = find_next_line(fd, *saved_line);
+    if (!(*saved_line))
+        return (-1);
+    
+    *line = line_before_new_line(*saved_line, '\n');
+    if (!(*line))
+    {
+        *saved_line = safe_free(*saved_line);
+        return (0);
+    }
+    
+    temp = line_after_new_line(*saved_line, '\n');
+    *saved_line = temp; // saved_line artık line_after_new_line'dan dönen değer
+    
+    if (*saved_line && (*saved_line)[0] == '\0')
+        *saved_line = safe_free(*saved_line);
+    
+    return (1);
 }

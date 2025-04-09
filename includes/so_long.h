@@ -1,4 +1,4 @@
-#ifndef SO_LONG_H
+# ifndef SO_LONG_H
 # define SO_LONG_H
 
 # include "../libft/libft.h"
@@ -66,9 +66,9 @@ int  	handle_line(char **map, int i, char *line);
 void 	free_map(char **map, int i);
 int  	allocate_map(char ***map, t_game *game);
 int  	open_map_file(char *filename);
-int file_control(char *dst);
-int	count_map_characters(t_game *game, int *exit_count, int *player_count);
-int check_path_validity(t_game *game);
-
-
+int 	file_control(char *dst);
+int		count_map_characters(t_game *game, int *exit_count, int *player_count);
+int 	check_path_validity(t_game *game);
+void	error_exit(t_game *game, char *message);
+int		validate_map_characters(t_game *game);
 #endif

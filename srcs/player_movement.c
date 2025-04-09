@@ -14,29 +14,16 @@
 
 int	file_control(char *dst)
 {
-	char	*src;
-	int		i;
-	int		k;
-	int		s;
+	int	len;
 
-	src = ".ber";
-	i = 0;
-	k = 0;
-	s = 0;
-	while (src[s] != '\0')
-		s++;
-	while (dst[k] != '\0')
-	{
-		i = 0;
-		while (dst[k] == src[i] && src[i])
-		{
-			k++;
-			i++;
-		}
-		if (i == s)
-			return (1);
-		k++;
-	}
+	len = ft_strlen(dst);
+	// Dosya adı en az 4 karakter olmalı (.ber)
+	if (len < 5)
+		return (0);
+	// Son 4 karakterin .ber olup olmadığını kontrol et
+	if (dst[len - 4] == '.' && dst[len - 3] == 'b' && 
+		dst[len - 2] == 'e' && dst[len - 1] == 'r')
+		return (1);
 	return (0);
 }
 

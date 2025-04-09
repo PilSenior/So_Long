@@ -1,0 +1,10 @@
+{
+   MLX_X11_Uninitialised_Value
+   Memcheck:Param
+   writev(vector[...])
+   fun:writev
+   obj:/usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+   obj:/usr/lib/x86_64-linux-gnu/libxcb.so.1.1.0
+   fun:xcb_writev
+   fun:_XSend
+}

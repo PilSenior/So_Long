@@ -66,42 +66,37 @@ static void	flood_fill_recursive(char **map, int x, int y, t_point size)
 	flood_fill_recursive(map, x, y - 1, size);
 }
 
-int	check_path_validity(t_game *game)
+int check_path_validity(t_game *game)
 {
-	char	**map_copy;
-	int		x;
-	int		y;
-	int		valid;
-	t_point	size;
+    char    **map_copy;
+    int     x;
+    int     y;
+    int     valid;
+    t_point size;
 
-	map_copy = create_map_copy(game);
-	if (!map_copy)
-		return (ft_printf("Error: Bellek ayırma hatası!\n"), 0);
-	
-	size.x = game->map_width;
-	size.y = game->map_height;
-
-	// Oyuncunun konumundan flood fill başlat
-	flood_fill_recursive(map_copy, game->player_x, game->player_y, size);
-	
-	valid = 1;
-	y = 0;
-	while (y < game->map_height && valid)
-	{
-		x = 0;
-		while (x < game->map_width && valid)
-		{
-			if (game->map[y][x] == 'C' && map_copy[y][x] != 'F')
-				valid = 0;
-			if (game->map[y][x] == 'E' && map_copy[y][x] != 'F')
-				valid = 0;
-			x++;
-		}
-		y++;
-	}
-	
-	free_map_copy(map_copy, game->map_height);
-	if (!valid)
-		ft_printf("Error: Oyuncu tüm toplama nesnelerine ve çıkışa erişemiyor!\n");
-	return (valid);
+    map_copy = create_map_copy(game);
+    if (!map_copy)
+        return (ft_printf("Error: Bellek ayırma hatası!\n"), 0);
+    size.x = game->map_width;
+    size.y = game->map_height;
+    flood_fill_recursive(map_copy, game->player_x, game->player_y, size);
+    valid = 1;
+    y = 0;
+    while (y < game->map_height && valid)
+    {
+        x = 0;
+        while (x < game->map_width && valid)
+        {
+            if (game->map[y][x] == 'C' && map_copy[y][x] != 'F')
+                valid = 0;
+            if (game->map[y][x] == 'E' && map_copy[y][x] != 'F')
+                valid = 0;
+            x++;
+        }
+        y++;
+    }
+    free_map_copy(map_copy, game->map_height);
+    if (!valid)
+        ft_printf("Error: Oyuncu tüm toplama nesnelerine ve çıkışa erişemiyor!\n");
+    return (valid);
 }
