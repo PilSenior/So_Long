@@ -8,8 +8,8 @@ OBJ_DIR = objs
 INC_DIR = includes
 
 LIBFT = libft/libft.a
-PRINTF = Printf/printf.a
-MLX = minilibx-linux/libmlx.a
+PRINTF = ft_printf/printf.a
+MLX = minilibx/libmlx.a
 
 SRCS = $(SRC_DIR)/main.c \
        $(SRC_DIR)/draw_map.c \
@@ -26,7 +26,7 @@ OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -I $(INC_DIR) -I libft -I printf -I minilibx -c $< -o $@
+	$(CC) $(CFLAGS) -I $(INC_DIR) -I libft -I ft_printf -I minilibx -c $< -o $@
 
 all: $(LIBFT) $(PRINTF) $(MLX) $(NAME)
 
@@ -34,23 +34,25 @@ $(LIBFT):
 	make -C libft
 
 $(PRINTF):
-	make -C printf
+	make -C ft_printf
 
 $(MLX):
-	make -C minilibx-linux
+	make -C minilibx
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(MLX) -L minilibx-linux -lmlx -lm -lX11 -lXext -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(MLX) -L minilibx -lmlx -lm -lX11 -lXext -o $(NAME)
 
 clean:
+	make -C libft clean  
+	make -C ft_printf clean 
 	rm -rf $(OBJ_DIR)
-	make clean -C libft
-	make clean -C minilibx-linux
+	
 
 fclean: clean
+	make -C libft fclean 
+	make -C ft_printf fclean
+	make  -C minilibx clean  
 	rm -f $(NAME)
-	make fclean -C libft
-	make fclean -C printf
 
 re: fclean all
 

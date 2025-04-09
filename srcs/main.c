@@ -140,6 +140,7 @@ int	main(int argc, char **argv)
 	if (!game.map)
 		return (ft_printf("Error: Map loading failed!\n"),1);
 	init_game(&game);
+	draw_map(&game); 
 	mlx_hook(game.mlx_win, 2, 1L << 0, handle_input, &game);
 	mlx_hook(game.mlx_win, 17, 0, exit_game, &game);
 	mlx_loop(game.mlx);

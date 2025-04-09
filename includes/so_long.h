@@ -2,8 +2,8 @@
 # define SO_LONG_H
 
 # include "../libft/libft.h"
-# include "../minilibx-linux/mlx.h"
-# include "../Printf/ft_printf.h"
+# include "../minilibx/mlx.h"
+# include "../ft_printf/ft_printf.h"
 # include <fcntl.h>
 # include <stdlib.h>
 # include <unistd.h>
