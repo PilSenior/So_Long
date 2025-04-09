@@ -40,7 +40,7 @@ void	load_textures(t_game *game)
 	if (!game->exit_open)
 		error_exit(game, "Exit open texture loading failed!");
 }
-int	check_map_characters(t_game *game)
+int check_map_characters(t_game *game)
 {
 	int	i;
 	int	j;
@@ -110,23 +110,17 @@ void	init_game(t_game *game)
 		free_game_memory(game);
 		exit(1);
 	}
-
-	// MLX başlatma
 	game->mlx = mlx_init();
 	if (!game->mlx)
 		error_exit(game, "MLX initialization failed!");
-
-	// Pencere oluşturma
 	game->mlx_win = mlx_new_window(game->mlx, game->map_width * 64,
 			game->map_height * 64, "SO_LONG");
 	if (!game->mlx_win)
 		error_exit(game, "Window creation failed!");
-
 	load_textures(game);
 	game->move_count = 0;
 }
 
-// In main.c - modify the main function for better initialization
 int	main(int argc, char **argv)
 {
 	t_game	game;
@@ -141,42 +135,13 @@ int	main(int argc, char **argv)
 		ft_printf("Error: Invalid map file extension! Must be '.ber'\n");
 		return (1);
 	}
-
-	// Oyun yapısını sıfırla
 	ft_memset(&game, 0, sizeof(t_game));
-
-	// Başlangıç değerlerini ayarla
-	game.saved_line = NULL;
-	game.map = NULL;
-	game.mlx = NULL;
-	game.mlx_win = NULL;
-	game.wall = NULL;
-	game.floor = NULL;
-	game.player = NULL;
-	game.collectible = NULL;
-	game.exit_closed = NULL;
-	game.exit_open = NULL;
-	game.move_count = 0;
-	game.collected = 0;
-	game.total_collectibles = 0;
-
-	// Harita yükleme
 	game.map = read_map(argv[1], &game);
 	if (!game.map)
-	{
-		ft_printf("Error: Map loading failed!\n");
-		return (1);
-	}
-
-	// Oyun başlatma
+		return (ft_printf("Error: Map loading failed!\n"),1);
 	init_game(&game);
-
-	// Olay kancaları
 	mlx_hook(game.mlx_win, 2, 1L << 0, handle_input, &game);
-	mlx_hook(game.mlx_win, 17, 1L << 17, exit_game, &game);
-
-	// Oyun döngüsü
+	mlx_hook(game.mlx_win, 17, 0, exit_game, &game);
 	mlx_loop(game.mlx);
-
 	return (0);
 }

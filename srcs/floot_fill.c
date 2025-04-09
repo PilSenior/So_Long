@@ -76,7 +76,7 @@ int check_path_validity(t_game *game)
 
     map_copy = create_map_copy(game);
     if (!map_copy)
-        return (ft_printf("Error: Bellek ayırma hatası!\n"), 0);
+        return (ft_printf("Error: memory split error!\n"), 0);
     size.x = game->map_width;
     size.y = game->map_height;
     flood_fill_recursive(map_copy, game->player_x, game->player_y, size);
@@ -97,6 +97,6 @@ int check_path_validity(t_game *game)
     }
     free_map_copy(map_copy, game->map_height);
     if (!valid)
-        ft_printf("Error: Oyuncu tüm toplama nesnelerine ve çıkışa erişemiyor!\n");
+        ft_printf("Error: Player can't reachable colectibles or exit door!\n");
     return (valid);
 }

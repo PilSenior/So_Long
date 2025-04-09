@@ -46,9 +46,9 @@ void	draw_ui(t_game *game)
 	char	*move_text;
 
 	move_count_str = ft_itoa(game->move_count);
-	move_text = ft_strjoin("Hareket: ", move_count_str);
+	move_text = ft_strjoin("HAREKET: ", move_count_str);
 	free(move_count_str);
-	mlx_string_put(game->mlx, game->mlx_win, 10, 10, 0xFFFFFF, move_text);
+	mlx_string_put(game->mlx, game->mlx_win, 10, 500, 0xffffff, move_text);
 	free(move_text);
 }
 

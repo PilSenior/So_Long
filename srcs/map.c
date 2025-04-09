@@ -97,7 +97,7 @@ int	get_map_size(char *filename, t_game *game)
 	line = NULL;
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (perror("we have a problem"), -1);
+		return (printf("we have a problem\n"), -1);
 	while (get_next_line(fd, &line, &game->saved_line) > 0)
 	{
 		trimmed = ft_strtrim(line, " \t\n\r");
@@ -142,7 +142,7 @@ char	**read_map(char *filename, t_game *game)
 	return (map);
 }
 
-int	validate_map_characters(t_game *game)
+int validate_map_characters(t_game *game)
 {
 	int	i;
 	int	j;
@@ -159,20 +159,14 @@ int	validate_map_characters(t_game *game)
 				player_count++;
 			if (game->map[i][j] != '0' && game->map[i][j] != '1' && 
 				game->map[i][j] != 'P' && game->map[i][j] != 'C' && 
-				game->map[i][j] != 'E' && game->map[i][j] != ' ')
-			{
-				ft_printf("Error: Map contains invalid character at position (%d,%d): '%c'\n", 
-					i, j, game->map[i][j]);
-				return (0);
-			}
+				game->map[i][j] != 'E')
+					return (ft_printf("Error: Map contains invalid character at position (%d,%d): '%c'\n", 
+						i, j, game->map[i][j]),0);
 			j++;
 		}
 		i++;
 	}
 	if (player_count != 1)
-	{
-		ft_printf("Error: Map must contain exactly one player (P)!\n");
-		return (0);
-	}
+		return (ft_printf("Error: Map must contain exactly one player (P)!\n"),0);
 	return (1);
 }
