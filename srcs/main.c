@@ -88,11 +88,11 @@ void	init_game(t_game *game)
 	}
 	game->mlx = mlx_init();
 	if (!game->mlx)
-		ft_printf(RED "MLX initialization failed!" RESET);
+		error_exit(game, "Mlx libary loading failed!");
 	game->mlx_win = mlx_new_window(game->mlx, game->map_width * 64,
 			game->map_height * 64, "SO_LONG");
 	if (!game->mlx_win)
-		ft_printf(RED "Window creation failed!" RESET);
+		error_exit(game, "Mlx window creation failed!");
 	load_textures(game);
 	game->move_count = 0;
 }

@@ -74,9 +74,9 @@ char	*read_and_join(int fd, char *s, char *str)
 		i = read(fd, str, BUFFER_SIZE);
 		if (i == -1)
 			return (safe_free(str));
-		str[i] = '\0';
 		temp = ft_strjoin(s, str);
-		free(s);
+		str[i] = '\0';
+			free(s);
 		if (!temp)
 			return (safe_free(str));
 		s = temp;

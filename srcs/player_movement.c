@@ -19,9 +19,9 @@ int	file_control(char *dst)
 	int	len;
 
 	len = ft_strlen(dst);
-	if (len < 5)
+	if (len < 10)
 		return (0);
-	if (dst[len - 4] == '.' && dst[len - 3] == 'b'
+	else if (dst[len - 4] == '.' && dst[len - 3] == 'b'
 		&& dst[len - 2] == 'e' && dst[len - 1] == 'r')
 		return (1);
 	return (0);

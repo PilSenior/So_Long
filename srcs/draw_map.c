@@ -18,7 +18,7 @@
 void	error_exit(t_game *game, char *message)
 {
 	if (message)
-		ft_printf("Error: %s\n", message);
+		ft_printf(RED"Error: %s\n"RESET, message);
 	free_game_memory(game);
 	exit(1);
 }

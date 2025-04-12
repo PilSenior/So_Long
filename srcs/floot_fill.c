@@ -104,6 +104,7 @@ int	check_path_validity(t_game *game)
 	flood_fill_recursive(map_copy, game->player_x, game->player_y, size);
 	valid = is_path_valid(game, map_copy);
 	if (!valid)
-		ft_printf(RED "Error: Player can't reach collectibles or exit!\n" RESET);
+		ft_printf(RED "Error: Player can't reach collectibles or exit!\n"
+			RESET);
 	return (valid);
 }

@@ -36,33 +36,37 @@ SRCS = $(SRC_DIR)/main.c \
 OBJS = $(SRCS:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -I $(INC_DIR) -I libft -I ft_printf -I minilibx -c $< -o $@
+	@mkdir -p $(OBJ_DIR)
+	@$(CC) $(CFLAGS) -I $(INC_DIR) -I libft -I ft_printf -I minilibx -c $< -o $@
 
 all: $(LIBFT) $(PRINTF) $(MLX) $(NAME)
 
 $(LIBFT):
-	make -C libft
+	@make -C libft
 
 $(PRINTF):
-	make -C ft_printf
+	@make -C ft_printf
 
 $(MLX):
-	make -C minilibx
+	@make -C minilibx
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(MLX) -L minilibx -lmlx -lm -lX11 -lXext -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(PRINTF) $(MLX) -L minilibx -lmlx -lX11 -lXext -o $(NAME)
+	@echo "\033[1;32m==> Derleme tamamlandı ✅\033[0m"
+
 
 clean:
-	make -C libft clean
-	make -C ft_printf clean
-	make -C minilibx clean
-	rm -rf $(OBJ_DIR)
+	@make -C libft clean
+	@make -C ft_printf clean
+	@make -C minilibx clean
+	@rm -rf $(OBJ_DIR)
+	@echo "\033[1;31m==> clean tamamlandı\033[0m"
 
 fclean: clean
-	make -C libft fclean
-	make -C ft_printf fclean
-	rm -f $(NAME)
+	@make -C libft fclean
+	@make -C ft_printf fclean
+	@rm -f $(NAME)
+	@echo "\033[1;31m==> fclean tamamlandı\033[0m"
 
 re: fclean all
 
